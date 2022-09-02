@@ -1,5 +1,3 @@
-import sqlite3
-
 import pandas as pd
 from sqlalchemy import create_engine
 
@@ -28,6 +26,7 @@ def userLogin():
         else:
             print("Password is incorrect")
             return success
+    main()
 
 def navigateMenu(user):
     while True:
@@ -480,10 +479,11 @@ def main():
             print("[1] Login as user")
             print("[2] Login as admin")
             print("[3] Create an account")
+            print("[4] Exit")
             sel = input()
             try:
                 sel = int(sel)
-                if sel in [1,2,3]:
+                if sel in [1,2,3,4]:
                     break
                 else:
                     print("I Didn't Understand")
@@ -498,6 +498,8 @@ def main():
         if sel == 3:
             #create user
             create_account()
+        if sel == 4:
+            pass
     finally:
         write_sql()
 
