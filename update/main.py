@@ -35,12 +35,12 @@ def navigateMenu(user):
         print("[2] Update Trackers\n")
         print("[3] Exit")
 
-        selection = input("Which would you like to do? ")
+        selection = input("Which would you like to do?\n ")
         
         try:
             selection = int(selection)
         except ValueError:
-            selection = input("Improper selection: Which would you like to do? ")
+            selection = input("Improper selection: Which would you like to do? \n")
 
         if selection == 1:
             viewTrackers(user)
@@ -50,7 +50,7 @@ def navigateMenu(user):
             print ("Have a nice day")
             return
         else:
-            print("Invalid option. Please make a proper selection.")
+            print("Invalid option. Please make a proper selection.\n")
 
 def viewTrackers(user):
     #print(user)
@@ -62,7 +62,7 @@ def viewTrackers(user):
         print("[1] Saved to Watch")
         print("[2] Currently Watching")
         print("[3] Finished Watching")
-        pick = input("Which do you want to see? ")
+        pick = input("Which do you want to see?\n ")
     
         try:
             pick =int(pick)
@@ -97,7 +97,7 @@ def updateTrackers(user):
     while True:
         print("Would you like:")
         print("[1] Add new trackers")
-        print("[2] Update existing trackers")
+        print("[2] Update existing trackers\n")
         sel = input()
         try:
             sel = int(sel)
@@ -128,7 +128,7 @@ def updateTrackers(user):
             print("Are you:")
             print("[1] Planning on watching")
             print("[2] Currently watching")
-            print("[3] Finished watching")
+            print("[3] Finished watching\n")
             selec = input()
             try:
                 selec = int(selec)
@@ -161,7 +161,7 @@ def updateTrackers(user):
                 #print(options)
                 print(f"[{i}",end="]")
                 print(option[i][5])
-            inp = input("Which would you like to change? ")
+            inp = input("Which would you like to change?\n ")
             try:
                 inp = int(inp)
                 if inp in range(len(option)):
@@ -174,7 +174,7 @@ def updateTrackers(user):
             print("Would you like to: ")
             print("[1] Remove the tracker")
             print("[2] Change the progress of tracker")
-            print("[3] Change the status of tracker")
+            print("[3] Change the status of tracker\n")
             inpu = input()
             try:
                 inpu = int(inpu)
@@ -188,7 +188,7 @@ def updateTrackers(user):
             while True:
                 print("Are you sure you want to delete this tracker?")
                 print("[1] YES CANNOT BE UNDONE")
-                print("[2] NO")
+                print("[2] NO\n")
                 sure = input()
                 try:
                     sure = int(sure)
@@ -199,11 +199,11 @@ def updateTrackers(user):
                 except ValueError:
                     print("I didn't Understand")
             if sure == 1:
-                print(progress[(progress['user_id'] == option[inp][0])&(progress['movie_id']==option[inp][1])].index)
+                #print(progress[(progress['user_id'] == option[inp][0])&(progress['movie_id']==option[inp][1])].index)
                 progress.drop(progress[(progress['user_id'] == option[inp][0])&(progress['movie_id']==option[inp][1])].index,inplace=True)
         if inpu == 2:
             while True:
-                new_per = input("What is the new percentage? ")
+                new_per = input("What is the new percentage?\n ")
                 try:
                     new_per = int(new_per)
                     if new_per < 100:
@@ -218,7 +218,7 @@ def updateTrackers(user):
                 print("Are you:")
                 print("[1] Planning on watching")
                 print("[2] Currently watching")
-                print("[3] Finished watching")
+                print("[3] Finished watching\n")
                 new_stat = input()
                 try:
                     new_stat = int(new_stat)
@@ -228,7 +228,21 @@ def updateTrackers(user):
                         print("I Didn't Understand")
                 except ValueError:
                     print("I Didn't Understand")
-            progress.loc[(progress['user_id'] == option[inp][0])&(progress['movie_id']==option[inp][1]),'status'] = new_stat
+            if new_stat in [1,3]:
+                progress.loc[(progress['user_id'] == option[inp][0])&(progress['movie_id']==option[inp][1]),'status'] = new_stat
+            if new_stat == 2:
+                while True:
+                    new_per = input("What is the new percentage? \n")
+                    try:
+                        new_per = int(new_per)
+                        if new_per < 100:
+                            break
+                        else:
+                            print("I didn't Understand")
+                    except ValueError:
+                        print("I didn't Understand")
+                progress.loc[(progress['user_id'] == option[inp][0])&(progress['movie_id']==option[inp][1]),'percent'] = new_per
+                progress.loc[(progress['user_id'] == option[inp][0])&(progress['movie_id']==option[inp][1]),'status'] = new_stat
 
 def search_movie(title = None,genre = None):
     if title:
@@ -250,7 +264,7 @@ def cli_search():
     while True:
         print("Would you like to search by:")
         print("[1] Title")
-        print("[2] Genre")
+        print("[2] Genre\n")
         sel = input()
         try:
             sel = int(sel)
@@ -287,7 +301,7 @@ def create_account():
             users.loc[len(users.index)] = [len(users.index),user,password]
             break
         else:
-            print(f"The user {user} already exists")
+            print(f"The user {user} already exists\n")
     main()
 
 def write_sql():
@@ -305,7 +319,7 @@ def create_admin():
             admins.loc[len(users.index)] = [len(users.index)+1,user,password]
             break
         else:
-            print(f"The Admin {user} already exists")
+            print(f"The Admin {user} already exists\n")
     main()
 
 def admin_login():
@@ -320,7 +334,7 @@ def admin_login():
             else:
                 print("Incorrect Password")
         else:
-            print(f"The Admin {user} could not be found")
+            print(f"The Admin {user} could not be found\n")
 
 def cli_admin():
     admin = admin_login()
@@ -329,7 +343,7 @@ def cli_admin():
             print("What would you like to do today?")
             print("[1] Manage Users")
             print("[2] Manage Admins")
-            print("[3] Add Admins")
+            print("[3] Add Admins\n")
             inp = input()
             try:
                 inp = int(inp)
@@ -369,13 +383,14 @@ def manage_users(admin:bool):
         user = user_list[user_choice]
         if not users[users["login"] == user].empty:
             selected_user = users[users["login"] == user]
+            #user_id = users[users["login"]==user]['user_id']
             while True:
                 print(selected_user)
-                print("What would you like to change:")
+                print("\nWhat would you like to change:")
                 print("[1] Username")
                 print("[2] Password")
                 print("[3] Remove them")
-                print("[4] Manage Trackers")
+                print("[4] Manage Trackers\n")
                 sel = input()
                 try:
                     sel = int(sel)
@@ -393,9 +408,9 @@ def manage_users(admin:bool):
                 users.loc[users["login"].str.lower() == user.lower(),"password"] = new
             if sel == 3:
                 while True:
-                    print("Are you sure you want to delete this User?")
+                    print("\nAre you sure you want to delete this User?")
                     print("[1] YES CANNOT BE UNDONE")
-                    print("[2] NO")
+                    print("[2] NO\n")
                     sure = input()
                     try:
                         sure = int(sure)
@@ -407,6 +422,7 @@ def manage_users(admin:bool):
                         print("I didn't Understand")
                 if sure == 1:
                     users.drop(users[users["login"].str.lower() == user.lower()].index,inplace=True)
+                    #progress.drop(progress[progress["user_id"]==user_id].index,inplace=True)
                 if sure == 2:
                     manage_users(admin)
             if sel == 4:
@@ -427,10 +443,10 @@ def manage_admins(admin:bool):
             selected_user = admins[admins["login"].str.lower() == user.lower()]
             while True:
                 print(selected_user)
-                print("What would you like to change:")
+                print("\nWhat would you like to change:")
                 print("[1] Username")
                 print("[2] Password")
-                print("[3] Remove them")
+                print("[3] Remove them\n")
                 sel = input()
                 try:
                     sel = int(sel)
@@ -448,9 +464,9 @@ def manage_admins(admin:bool):
                 admins.loc[admins["login"].str.lower() == user.lower(),"password"] = new
             if sel == 3:
                 while True:
-                    print("Are you sure you want to delete this User?")
+                    print("\nAre you sure you want to delete this User?")
                     print("[1] YES CANNOT BE UNDONE")
-                    print("[2] NO")
+                    print("[2] NO\n")
                     sure = input()
                     try:
                         sure = int(sure)
@@ -473,7 +489,7 @@ def manage_admins(admin:bool):
 def main():
     #forces the sql write
     try:
-        print("Welcome to the movie tracker!")
+        print("Welcome to the movie tracker!\n")
         while True:
             print("Would you like to:")
             print("[1] Login as user")
@@ -481,6 +497,7 @@ def main():
             print("[3] Create an account")
             print("[4] Exit")
             sel = input()
+            print("\n\n")
             try:
                 sel = int(sel)
                 if sel in [1,2,3,4]:
